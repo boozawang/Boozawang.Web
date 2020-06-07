@@ -15,12 +15,12 @@ namespace Boozawang.Web.Models.ReBalancing
 		/// <summary>
 		/// 리밸런싱 결과
 		/// </summary>
-		public List<StockItem> StockData { get; set; }
+		//public List<StockItem> StockData { get; set; }
 
 		/// <summary>
 		/// 리밸런싱 후 잔액
 		/// </summary>
-		public decimal ResultAmount { get; set; }
+		public decimal RestAmount { get; set; }
 
 		
 	}

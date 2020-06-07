@@ -14,6 +14,11 @@ namespace Boozawang.Web.Controllers
     [ApiController]
     public class ReBalancingController : ControllerBase
     {
+        /// <summary>
+        /// 리밸런싱
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         [HttpPost]
         public RebalancingRes Post(RebalancingReq req)
         {

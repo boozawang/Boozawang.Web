@@ -8,7 +8,7 @@ namespace Boozawang.Web.Models.ReBalancing
 	/// <summary>
 	/// 주식 아이템
 	/// </summary>
-    public class StockItem
+    public class StockItemReq
     {
 		/// <summary>
 		/// 이름
@@ -18,16 +18,16 @@ namespace Boozawang.Web.Models.ReBalancing
 		/// <summary>
 		/// 가격
 		/// </summary>
-		public decimal Price { get; set; }
+		public decimal CurrentPrice { get; set; }
 
 		/// <summary>
 		/// 수량
 		/// </summary>
-		public int Qty { get; set; }
+		public int CurrentQty { get; set; }
 
 		/// <summary>
-		/// 비중
+		/// 목표 비중
 		/// </summary>
-		public decimal Weight { get; set; }
+		public decimal TargetWeight { get; set; }
 	}
 }
