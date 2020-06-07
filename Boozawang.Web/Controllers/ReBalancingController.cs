@@ -15,9 +15,9 @@ namespace Boozawang.Web.Controllers
     public class ReBalancingController : ControllerBase
     {
         [HttpPost]
-        public RebalancingResponse Post(List<StockItem> stockItem, decimal additionalMoney)
+        public RebalancingRes Post(RebalancingReq req)
         {
-            return ReblancingService.Rebalancing(stockItem, additionalMoney);
+            return ReblancingService.Rebalancing(req.StockItem, req.AdditionalMoney);
         }
 
     }

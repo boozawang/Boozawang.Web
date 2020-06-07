@@ -8,13 +8,12 @@ namespace Boozawang.Web.Service.ReBalancing
 {
     public class ReblancingService
     {
-		public static RebalancingResponse Rebalancing(List<StockItem> before, decimal additionalMoney)
+		public static RebalancingRes Rebalancing(List<StockItem> before, decimal additionalMoney)
 		{
 			#region 변수선언
 
-			RebalancingResponse result = new RebalancingResponse();
-			List<StockItem> after = new List<StockItem>();
-
+			RebalancingRes result = new RebalancingRes();
+			
 			#endregion
 
 			#region 파라메터 유효성 검사
@@ -29,7 +28,10 @@ namespace Boozawang.Web.Service.ReBalancing
 			result.StockData = RebalancingStockItem(before, additionalMoney);
 
 			// 잔액 계산
-			result.ResultAmount = SumPriceQty(before) + additionalMoney - SumPriceQty(after);
+			result.ResultAmount = SumPriceQty(before) + additionalMoney - SumPriceQty(result.StockData);
+
+			// 변경점 계산
+			result.ChangeSummary = MakeChangeSummary(before, result.StockData);
 
 			#endregion
 
@@ -207,5 +209,32 @@ namespace Boozawang.Web.Service.ReBalancing
 
 			return result;
 		}
+
+		/// <summary>
+		/// 리밸런싱 전후 변경 요약
+		/// </summary>
+		/// <param name="before"></param>
+		/// <param name="after"></param>
+		/// <returns></returns>
+		private static List<StockItemChange> MakeChangeSummary(List<StockItem> before, List<StockItem> after)
+        {
+			List<StockItemChange> result = new List<StockItemChange>();
+
+			foreach (StockItem entity in after)
+            {
+				var selectedBefore = before.Find(x => x.Name == entity.Name);
+
+				result.Add(
+					new StockItemChange
+					{
+						Name = entity.Name,
+						BasePrice = entity.Price,
+						ChangeQty = entity.Qty - selectedBefore.Qty
+					}
+				);
+			}
+
+			return result;
+        }
 	}
 }

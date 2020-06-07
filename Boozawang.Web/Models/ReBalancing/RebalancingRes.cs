@@ -5,8 +5,13 @@ using System.Threading.Tasks;
 
 namespace Boozawang.Web.Models.ReBalancing
 {
-    public class RebalancingResponse
+    public class RebalancingRes
     {
+		/// <summary>
+		/// 변경 요약
+		/// </summary>
+		public List<StockItemChange> ChangeSummary { get; set; }
+
 		/// <summary>
 		/// 리밸런싱 결과
 		/// </summary>
@@ -16,5 +21,7 @@ namespace Boozawang.Web.Models.ReBalancing
 		/// 리밸런싱 후 잔액
 		/// </summary>
 		public decimal ResultAmount { get; set; }
+
+		
 	}
 }
