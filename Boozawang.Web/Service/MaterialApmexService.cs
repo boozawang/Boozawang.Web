@@ -284,7 +284,7 @@ namespace Boozawang.Web.Service
         {
 			if(data?.Any() ?? false)
             {
-				if(data.Any(x=>x.Price != 0))
+				if(!data.Any(x=>x.Price == 0))
 					return true;
             }
 			return false;
