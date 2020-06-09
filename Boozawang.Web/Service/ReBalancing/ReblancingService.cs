@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Threading.Tasks;
 
 namespace Boozawang.Web.Service.ReBalancing
 {
     public class ReblancingService
     {
-		public static RebalancingRes Rebalancing(List<StockItemReq> before, decimal additionalMoney)
+		public static RebalancingRes Rebalancing(List<StockItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
 		{
 			#region 변수선언
 
@@ -25,7 +26,7 @@ namespace Boozawang.Web.Service.ReBalancing
 			#region 행동 정의
 
 			// 리밸런싱			
-			after = RebalancingStockItem(before, additionalMoney);
+			after = RebalancingStockItem(before, additionalMoney, restOptionType);
 
 			// 잔액 계산
 			result.RestAmount = SumPriceQty(before) + additionalMoney - SumPriceQty(after);
@@ -52,7 +53,7 @@ namespace Boozawang.Web.Service.ReBalancing
 		/// <param name="before"></param>
 		/// <param name="additionalMoney"></param>
 		/// <returns></returns>
-		private static List<StockItemReq> RebalancingStockItem(List<StockItemReq> before, decimal additionalMoney)
+		private static List<StockItemReq> RebalancingStockItem(List<StockItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
 		{
 			#region 변수 선언
 
@@ -76,7 +77,7 @@ namespace Boozawang.Web.Service.ReBalancing
 			rest = SumPriceQty(before) + additionalMoney - SumPriceQty(result);
 
 			// 나머지 분배
-			result = SetByRest(result, rest);
+			result = SetByRest(result, rest, restOptionType);
 
 			#endregion
 
@@ -139,34 +140,42 @@ namespace Boozawang.Web.Service.ReBalancing
 		/// <param name="before"></param>
 		/// <param name="rest"></param>
 		/// <returns></returns>
-		private static List<StockItemReq> SetByRest(List<StockItemReq> before, decimal rest)
+		private static List<StockItemReq> SetByRest(List<StockItemReq> before, decimal rest, RestOptionTypes restOptionType)
 		{
 			List<StockItemReq> result = new List<StockItemReq>();
 
-			// 큰 가격순 정렬
-			if (before?.Any() ?? false)
-			{
-				before = before.OrderByDescending(x => x.CurrentPrice).ToList();
-
-				foreach (StockItemReq entity in before)
-				{
-					StockItemReq one = new StockItemReq();
-					one.Name = entity.Name;
-					one.CurrentPrice = entity.CurrentPrice;
-					one.TargetWeight = entity.TargetWeight;
-
-					if (entity.CurrentPrice < rest)
+			switch(restOptionType)
+            {
+				case RestOptionTypes.Unknown:
+				case RestOptionTypes.MinRest:
+                {
+					// 큰 가격순 정렬
+					if (before?.Any() ?? false)
 					{
-						int plusQty = (int)(rest / entity.CurrentPrice);
-						one.CurrentQty = entity.CurrentQty + plusQty;
-						rest = rest - (entity.CurrentPrice * plusQty);
-					}
-					else
-						one.CurrentQty = entity.CurrentQty;
+						before = before.OrderByDescending(x => x.CurrentPrice).ToList();
 
-					result.Add(one);
+						foreach (StockItemReq entity in before)
+						{
+							StockItemReq one = new StockItemReq();
+							one.Name = entity.Name;
+							one.CurrentPrice = entity.CurrentPrice;
+							one.TargetWeight = entity.TargetWeight;
+
+							if (entity.CurrentPrice < rest)
+							{
+								int plusQty = (int)(rest / entity.CurrentPrice);
+								one.CurrentQty = entity.CurrentQty + plusQty;
+								rest = rest - (entity.CurrentPrice * plusQty);
+							}
+							else
+								one.CurrentQty = entity.CurrentQty;
+
+							result.Add(one);
+						}
+					}
 				}
-			}
+					break;
+            }			
 
 			return result;
 		}

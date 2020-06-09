@@ -22,7 +22,7 @@ namespace Boozawang.Web.Controllers
         [HttpPost]
         public RebalancingRes Post(RebalancingReq req)
         {
-            return ReblancingService.Rebalancing(req.StockItem, req.AdditionalMoney);
+            return ReblancingService.Rebalancing(req.StockItem, req.AdditionalMoney, req.RestOption);
         }
 
     }
