@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Boozawang.Web</name>
+    </assembly>
+    <members>
+        <member name="M:Boozawang.Web.Controllers.ReBalancingController.Post(Boozawang.Web.Models.ReBalancing.RebalancingReq)">
+            <summary>
+            리밸런싱
+            </summary>
+            <param name="req"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingReq.StockItem">
+            <summary>
+            리밸런싱 목표 데이터
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingReq.AdditionalMoney">
+            <summary>
+            추가금액
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingReq.RestOption">
+            <summary>
+            나머지 금액 옵션
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingRes.ChangeSummary">
+            <summary>
+            변경 요약
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingRes.RestAmount">
+            <summary>
+            리밸런싱 후 잔액
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.ReBalancing.StockItemChange">
+            <summary>
+            변경 요약
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.Name">
+            <summary>
+            이름
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.BasePrice">
+            <summary>
+            기준가격
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.ChangeQty">
+            <summary>
+            수량
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.ReBalancing.StockItemReq">
+            <summary>
+            주식 아이템
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.Name">
+            <summary>
+            이름
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.CurrentPrice">
+            <summary>
+            가격
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.CurrentQty">
+            <summary>
+            수량
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.TargetWeight">
+            <summary>
+            목표 비중
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.ReBalancing.RestOptionTypes">
+            <summary>
+            나머지 처리 옵션
+            0 : Unknown,
+            1 : MinRest - 나머지 없애기
+            2 : MaxRest - 나머지 그냥 냅둠
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.ReBalancing.RestOptionTypes.Unknown">
+            <summary>
+            알수없음
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.ReBalancing.RestOptionTypes.MinRest">
+            <summary>
+            나머지가 가장 적게 리밸런싱
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.ReBalancing.RestOptionTypes.MaxRest">
+            <summary>
+            나머지 그냥 냅둠
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+            <summary>
+            리밸런싱
+            </summary>
+            <param name="before"></param>
+            <param name="additionalMoney"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SumPriceQty(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+            <summary>
+            수량 가격 곱해줌
+            </summary>
+            <param name="before"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SetByRest(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+            <summary>
+            나머지 금액을 내림차순으로 최대한 분배
+            </summary>
+            <param name="before"></param>
+            <param name="rest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SetByWeight(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal)">
+            <summary>
+            추가금을 합한 총액을 원하는 비중에 따른 분배
+            </summary>
+            <param name="before"></param>
+            <param name="additional"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.MakeChangeSummary(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+            <summary>
+            리밸런싱 전후 변경 요약
+            </summary>
+            <param name="before"></param>
+            <param name="after"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
