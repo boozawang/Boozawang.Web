@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +30,10 @@ namespace Boozawang.Web
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Boozawang API V1", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BoozawangAPI", Version = "v1" });
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Boozawang.Web.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 

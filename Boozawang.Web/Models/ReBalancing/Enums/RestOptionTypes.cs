@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace Boozawang.Web.Models.ReBalancing
 {
+    /// <summary>
+    /// 나머지 처리 옵션
+    /// 0 : Unknown,
+    /// 1 : MinRest - 나머지 없애기
+    /// 2 : MaxRest - 나머지 그냥 냅둠
+    /// </summary>
     public enum RestOptionTypes
     {
         /// <summary>
