@@ -19,7 +19,20 @@ namespace Boozawang.Web.Service
 
 		public List<MaterialItem> GetAll(bool useCache, bool updateCache)
         {
-            return new List<MaterialItem>();
+			List<MaterialItem> result = new List<MaterialItem>();
+
+			if (useCache == true)
+			{
+				result = GetAllMaterailByCache();
+			}
+
+			if (!HasAllPrice(result) && updateCache == true )
+			{
+				result = GetAllMaterailByHTML();
+				SetAllMaterailCache(result);
+			}
+
+			return result;
         }
 
 		/// <summary>
@@ -63,6 +76,53 @@ namespace Boozawang.Web.Service
 		}
 
 		/// <summary>
+		/// 모든 캐시 조회
+		/// </summary>
+		/// <returns></returns>
+		private List<MaterialItem> GetAllMaterailByCache()
+        {
+			List<MaterialItem> result = new List<MaterialItem>();
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Gold",
+					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Gold.ToString())
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Silver",
+					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Silver.ToString())
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Platinum",
+					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Platinum.ToString())
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Palladium",
+					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Palladium.ToString())
+				}
+			);
+
+			return result;
+		}
+
+		/// <summary>
 		/// 캐시에 가격 기록
 		/// </summary>
 		/// <param name="materialType"></param>
@@ -71,6 +131,18 @@ namespace Boozawang.Web.Service
 		{
 			string key = "MaterialTypes/" + materialType.ToString();
 			cache.Set(key, val);
+		}
+
+		/// <summary>
+		/// 캐시에 가격 모두 기록
+		/// </summary>
+		/// <param name="data"></param>
+		private void SetAllMaterailCache(List<MaterialItem> data)
+        {
+			foreach(MaterialItem entity in data)
+            {
+				cache.Set("MaterialTypes/" + entity.Name, entity.Price);
+			}
 		}
 
 		/// <summary>
@@ -87,6 +159,57 @@ namespace Boozawang.Web.Service
 
 			// 정보 거르기
 			result = GetPriceFromInfo(materialType, siteInfo);
+
+			return result;
+		}
+
+		/// <summary>
+		/// html로 전체 가격 가져오기
+		/// </summary>
+		/// <returns></returns>
+		private List<MaterialItem> GetAllMaterailByHTML()
+		{
+			List<MaterialItem> result = new List<MaterialItem>();
+
+			// 사이트 html 받아오기
+			CsQuery.CQ siteInfo = GetSiteInfoHtml();
+			var data = siteInfo[ApmexConst.APMEX_LiST_QUERY].ToList();
+
+			result.Add
+			(
+				new MaterialItem()
+                {
+					Name = "Gold",
+					Price = Decimal.Parse(data[0].FirstChild.ToString().Replace("$", ""))
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Silver",
+					Price = Decimal.Parse(data[1].FirstChild.ToString().Replace("$", ""))
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Platinum",
+					Price = Decimal.Parse(data[2].FirstChild.ToString().Replace("$", ""))
+				}
+			);
+
+			result.Add
+			(
+				new MaterialItem()
+				{
+					Name = "Palladium",
+					Price = Decimal.Parse(data[3].FirstChild.ToString().Replace("$", ""))
+				}
+			);
 
 			return result;
 		}
@@ -195,5 +318,19 @@ namespace Boozawang.Web.Service
 			return siteDom[ApmexConst.APMEX_TITLE_QUERY];
 		}
 
+		/// <summary>
+		/// 모두 값이 있나 확인
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		private bool HasAllPrice(List<MaterialItem> data)
+        {
+			if(data?.Any() ?? false)
+            {
+				if(data.Any(x=>x.Price != 0))
+					return true;
+            }
+			return false;
+        }
 	}
 }

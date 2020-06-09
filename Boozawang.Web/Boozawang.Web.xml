@@ -225,6 +225,12 @@
             <param name="materialType"></param>
             <returns></returns>
         </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetAllMaterailByCache">
+            <summary>
+            모든 캐시 조회
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Boozawang.Web.Service.MaterialApmexService.SetMaterailCache(Boozawang.Web.Models.Material.MaterialTypes,System.Decimal)">
             <summary>
             캐시에 가격 기록
@@ -232,11 +238,23 @@
             <param name="materialType"></param>
             <param name="val"></param>
         </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.SetAllMaterailCache(System.Collections.Generic.List{Boozawang.Web.Models.Material.MaterialItem})">
+            <summary>
+            캐시에 가격 모두 기록
+            </summary>
+            <param name="data"></param>
+        </member>
         <member name="M:Boozawang.Web.Service.MaterialApmexService.GetMaterailByHTML(Boozawang.Web.Models.Material.MaterialTypes)">
             <summary>
             html로 가격 가져오기
             </summary>
             <param name="materialType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetAllMaterailByHTML">
+            <summary>
+            html로 전체 가격 가져오기
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Boozawang.Web.Service.MaterialApmexService.GetSiteInfoHtml">
@@ -265,6 +283,13 @@
             apmex 사이트중 위 헤더 받아오기
             </summary>
             <param name="siteDom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.HasAllPrice(System.Collections.Generic.List{Boozawang.Web.Models.Material.MaterialItem})">
+            <summary>
+            모두 값이 있나 확인
+            </summary>
+            <param name="data"></param>
             <returns></returns>
         </member>
         <member name="M:Boozawang.Web.Service.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
