@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime;
 using System.Threading.Tasks;
 
-namespace Boozawang.Web.Service.ReBalancing
+namespace Boozawang.Web.Service
 {
     public class ReblancingService
     {
