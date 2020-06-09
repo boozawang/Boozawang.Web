@@ -24,7 +24,7 @@ namespace Boozawang.Web.Controllers
         [HttpGet]        
         public List<MaterialItem> Get()
         {
-            return service.GetAll(true, true);
+            return service.GetAll();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Boozawang.Web.Controllers
         [HttpGet("{materialType}")]
         public MaterialItem Get(MaterialTypes materialType)
         {
-            return service.GetByType(materialType, true, true);
+            return service.GetByType(materialType);
         }
     }
 }

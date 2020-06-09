@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 
 namespace Boozawang.Web.Interface
 {
+    /// <summary>
+    /// 금속 시세 조회 인터페이스
+    /// </summary>
     public interface IMaterialService
     {
         /// <summary>
         /// 모든 금속 정보를 가져옴
         /// </summary>
-        /// <param name="useCache"></param>
-        /// <param name="updateCache"></param>
         /// <returns></returns>
-        List<MaterialItem> GetAll(bool useCache, bool updateCache);
+        List<MaterialItem> GetAll();
 
         /// <summary>
         /// 해당 금속 정보를 가져옴
         /// </summary>
         /// <param name="materailType"></param>
-        /// <param name="useCache"></param>
-        /// <param name="updateCache"></param>
         /// <returns></returns>
-        MaterialItem GetByType(MaterialTypes materailType, bool useCache, bool updateCache);
+        MaterialItem GetByType(MaterialTypes materailType);
     }
 }

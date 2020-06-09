@@ -17,20 +17,17 @@ namespace Boozawang.Web.Service
 		/// </summary>
 		private static MaterialCache cache = new MaterialCache();
 
-		public List<MaterialItem> GetAll(bool useCache, bool updateCache)
+		/// <summary>
+		/// 모든 금속 시세 조회
+		/// </summary>
+		/// <returns></returns>
+		public List<MaterialItem> GetAll()
         {
-			List<MaterialItem> result = new List<MaterialItem>();
+			List<MaterialItem> result = GetAllMaterailByCache();
 
-			if (useCache == true)
-				result = GetAllMaterailByCache();
-			else
-				result = GetAllMaterailByHTML();
-
-			if (updateCache == true)
+			if (!HasAllPrice(result))
 			{
-				if(!HasAllPrice(result))
-					result = GetAllMaterailByHTML();
-
+				result = GetAllMaterailByHTML();
 				SetAllMaterailCache(result);
 			}
 
@@ -41,24 +38,15 @@ namespace Boozawang.Web.Service
 		/// 가격 조회(달러/트로이온스)
 		/// </summary>
 		/// <param name="materialType"></param>
-		/// <param name="useCache"></param>
-		/// <param name="updateCache"></param>
 		/// <returns></returns>
-		public MaterialItem GetByType(MaterialTypes materialType, bool useCache, bool updateCache)
+		public MaterialItem GetByType(MaterialTypes materialType)
 		{
 			MaterialItem result = new MaterialItem();
-			decimal price = 0;
+            decimal price = GetMaterailByCache(materialType);
 
-			if (useCache == true)
-				price = GetMaterailByCache(materialType);
-			else
-				price = GetMaterailByHTML(materialType);
-
-			if (updateCache == true)
+            if (price == 0)
 			{
-				if(price == 0)
-					price = GetMaterailByHTML(materialType);
-
+				price = GetMaterailByHTML(materialType);
 				SetMaterailCache(materialType, price);
 			}
 
@@ -85,45 +73,32 @@ namespace Boozawang.Web.Service
 		/// <returns></returns>
 		private List<MaterialItem> GetAllMaterailByCache()
         {
-			List<MaterialItem> result = new List<MaterialItem>();
+            return  new List<MaterialItem>
+            {
+                new MaterialItem()
+                {
+                    Name = "Gold",
+                    Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Gold.ToString())
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Gold",
-					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Gold.ToString())
-				}
-			);
+                new MaterialItem()
+                {
+                    Name = "Silver",
+                    Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Silver.ToString())
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Silver",
-					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Silver.ToString())
-				}
-			);
+                new MaterialItem()
+                {
+                    Name = "Platinum",
+                    Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Platinum.ToString())
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Platinum",
-					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Platinum.ToString())
-				}
-			);
-
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Palladium",
-					Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Palladium.ToString())
-				}
-			);
-
-			return result;
+                new MaterialItem()
+                {
+                    Name = "Palladium",
+                    Price = cache.GetCache("MaterialTypes/" + MaterialTypes.Palladium.ToString())
+                }
+            };
 		}
 
 		/// <summary>
@@ -156,15 +131,11 @@ namespace Boozawang.Web.Service
 		/// <returns></returns>
 		private decimal GetMaterailByHTML(MaterialTypes materialType)
 		{
-			decimal result = 0;
-
 			// 사이트 html 받아오기
-			CsQuery.CQ siteInfo = GetSiteInfoHtml();
+			var siteInfo = GetSiteInfoHtml();
 
 			// 정보 거르기
-			result = GetPriceFromInfo(materialType, siteInfo);
-
-			return result;
+			return GetPriceFromInfo(materialType, siteInfo);			
 		}
 
 		/// <summary>
@@ -173,49 +144,36 @@ namespace Boozawang.Web.Service
 		/// <returns></returns>
 		private List<MaterialItem> GetAllMaterailByHTML()
 		{
-			List<MaterialItem> result = new List<MaterialItem>();
-
 			// 사이트 html 받아오기
-			CsQuery.CQ siteInfo = GetSiteInfoHtml();
+			var siteInfo = GetSiteInfoHtml();
 			var data = siteInfo[ApmexConst.APMEX_LiST_QUERY].ToList();
 
-			result.Add
-			(
-				new MaterialItem()
+            return new List<MaterialItem>
+            {
+                new MaterialItem()
                 {
-					Name = "Gold",
-					Price = Decimal.Parse(data[0].FirstChild.ToString().Replace("$", ""))
-				}
-			);
+                    Name = "Gold",
+                    Price = Decimal.Parse(data[0].FirstChild.ToString().Replace("$", ""))
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Silver",
-					Price = Decimal.Parse(data[1].FirstChild.ToString().Replace("$", ""))
-				}
-			);
+                new MaterialItem()
+                {
+                    Name = "Silver",
+                    Price = Decimal.Parse(data[1].FirstChild.ToString().Replace("$", ""))
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Platinum",
-					Price = Decimal.Parse(data[2].FirstChild.ToString().Replace("$", ""))
-				}
-			);
+                new MaterialItem()
+                {
+                    Name = "Platinum",
+                    Price = Decimal.Parse(data[2].FirstChild.ToString().Replace("$", ""))
+                },
 
-			result.Add
-			(
-				new MaterialItem()
-				{
-					Name = "Palladium",
-					Price = Decimal.Parse(data[3].FirstChild.ToString().Replace("$", ""))
-				}
-			);
-
-			return result;
+                new MaterialItem()
+                {
+                    Name = "Palladium",
+                    Price = Decimal.Parse(data[3].FirstChild.ToString().Replace("$", ""))
+                }
+            };
 		}
 
 		/// <summary>
@@ -224,12 +182,8 @@ namespace Boozawang.Web.Service
 		/// <returns></returns>
 		private CsQuery.CQ GetSiteInfoHtml()
 		{
-			CsQuery.CQ infoDom = new CsQuery.CQ();
-
-			CsQuery.CQ siteDom = GetHTML(ApmexConst.GOLD_SILVER_URL);
-			infoDom = GetExtractTitleFromApmex(siteDom);
-
-			return infoDom;
+			var siteDom = GetHTML(ApmexConst.GOLD_SILVER_URL);
+			return GetExtractTitleFromApmex(siteDom);
 		}
 
 		/// <summary>
@@ -240,9 +194,8 @@ namespace Boozawang.Web.Service
 		/// <returns></returns>
 		private decimal GetPriceFromInfo(MaterialTypes type, CsQuery.CQ siteInfo)
 		{
-			decimal result = 0;
-			string dollarStr = string.Empty;
-			var data = siteInfo[ApmexConst.APMEX_LiST_QUERY].ToList();
+            string dollarStr = string.Empty;
+            var data = siteInfo[ApmexConst.APMEX_LiST_QUERY].ToList();
 
 			switch (type)
 			{
@@ -260,10 +213,10 @@ namespace Boozawang.Web.Service
 					break;
 			}
 
-			// decimal 변환
-			Decimal.TryParse(dollarStr.Replace("$", ""), out result);
+            // decimal 변환
+            Decimal.TryParse(dollarStr.Replace("$", ""), out decimal result);
 
-			return result;
+            return result;
 		}
 
 		/// <summary>
