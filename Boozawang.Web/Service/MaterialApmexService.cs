@@ -26,9 +26,11 @@ namespace Boozawang.Web.Service
 				result = GetAllMaterailByCache();
 			}
 
-			if (!HasAllPrice(result) && updateCache == true )
+			if (updateCache == true)
 			{
-				result = GetAllMaterailByHTML();
+				if(!HasAllPrice(result))
+					result = GetAllMaterailByHTML();
+
 				SetAllMaterailCache(result);
 			}
 
@@ -52,9 +54,11 @@ namespace Boozawang.Web.Service
 				price = GetMaterailByCache(materialType);
 			}
 
-			if (updateCache == true || price == 0)
+			if (updateCache == true)
 			{
-				price = GetMaterailByHTML(materialType);
+				if(price == 0)
+					price = GetMaterailByHTML(materialType);
+
 				SetMaterailCache(materialType, price);
 			}
 
