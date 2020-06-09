@@ -4,12 +4,112 @@
         <name>Boozawang.Web</name>
     </assembly>
     <members>
+        <member name="M:Boozawang.Web.Controllers.MaterialController.Get">
+            <summary>
+            전체 조회(달러/트로이온스)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Controllers.MaterialController.Get(Boozawang.Web.Models.Material.MaterialTypes)">
+            <summary>
+            각각 조회(달러/트로이온스)
+            </summary>
+            <param name="materialType">	0 : All, 1 : Gold, 2 : Silver, 3 : Platinum, 4 : Palladium</param>
+            <returns></returns>
+        </member>
         <member name="M:Boozawang.Web.Controllers.ReBalancingController.Post(Boozawang.Web.Models.ReBalancing.RebalancingReq)">
             <summary>
             리밸런싱
             </summary>
             <param name="req"></param>
             <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IMaterialService.GetAll(System.Boolean,System.Boolean)">
+            <summary>
+            모든 금속 정보를 가져옴
+            </summary>
+            <param name="useCache"></param>
+            <param name="updateCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IMaterialService.GetByType(Boozawang.Web.Models.Material.MaterialTypes,System.Boolean,System.Boolean)">
+            <summary>
+            해당 금속 정보를 가져옴
+            </summary>
+            <param name="materailType"></param>
+            <param name="useCache"></param>
+            <param name="updateCache"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Models.Material.MaterialItem">
+            <summary>
+            금속 가격
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Material.MaterialItem.Name">
+            <summary>
+            종류
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Material.MaterialItem.Price">
+            <summary>
+            가격
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Material.MaterialRes">
+            <summary>
+            메터리얼 정보
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Material.MaterialRes.BaseTime">
+            <summary>
+            기준 시각
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Material.MaterialRes.BaseCurrency">
+            <summary>
+            기준 통화
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Material.MaterialRes.MaterialItems">
+            <summary>
+            가격 정보
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Material.MaterialTypes">
+            <summary>
+            금속 종류
+            0 : All 
+            1 : Gold
+            2 : Silver
+            3 : Platinum
+            4 : Palladium
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Material.MaterialTypes.All">
+            <summary>
+            알수 없음
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Material.MaterialTypes.Gold">
+            <summary>
+            금
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Material.MaterialTypes.Silver">
+            <summary>
+            은
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Material.MaterialTypes.Platinum">
+            <summary>
+            백금
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Material.MaterialTypes.Palladium">
+            <summary>
+            팔라듐
+            </summary>
         </member>
         <member name="P:Boozawang.Web.Models.ReBalancing.RebalancingReq.StockItem">
             <summary>
@@ -104,7 +204,70 @@
             나머지 그냥 냅둠
             </summary>
         </member>
-        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+        <member name="F:Boozawang.Web.Service.MaterialApmexService.cache">
+            <summary>
+            금속 캐시 - memory cache
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetByType(Boozawang.Web.Models.Material.MaterialTypes,System.Boolean,System.Boolean)">
+            <summary>
+            가격 조회(달러/트로이온스)
+            </summary>
+            <param name="materialType"></param>
+            <param name="useCache"></param>
+            <param name="updateCache"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetMaterailByCache(Boozawang.Web.Models.Material.MaterialTypes)">
+            <summary>
+            캐시에서 가격 가져오기
+            </summary>
+            <param name="materialType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.SetMaterailCache(Boozawang.Web.Models.Material.MaterialTypes,System.Decimal)">
+            <summary>
+            캐시에 가격 기록
+            </summary>
+            <param name="materialType"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetMaterailByHTML(Boozawang.Web.Models.Material.MaterialTypes)">
+            <summary>
+            html로 가격 가져오기
+            </summary>
+            <param name="materialType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetSiteInfoHtml">
+            <summary>
+            사이트에서 중요 정보 가져오기 - Apmex
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetPriceFromInfo(Boozawang.Web.Models.Material.MaterialTypes,CsQuery.CQ)">
+            <summary>
+            원하는 정보 추출
+            </summary>
+            <param name="type"></param>
+            <param name="siteInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetHTML(System.String)">
+            <summary>
+            페이지 dom 가져오기
+            </summary>
+            <param name="urlAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetExtractTitleFromApmex(CsQuery.CQ)">
+            <summary>
+            apmex 사이트중 위 헤더 받아오기
+            </summary>
+            <param name="siteDom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
             <summary>
             리밸런싱
             </summary>
@@ -112,14 +275,14 @@
             <param name="additionalMoney"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SumPriceQty(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SumPriceQty(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
             <summary>
             수량 가격 곱해줌
             </summary>
             <param name="before"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SetByRest(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SetByRest(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
             <summary>
             나머지 금액을 내림차순으로 최대한 분배
             </summary>
@@ -127,7 +290,7 @@
             <param name="rest"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.SetByWeight(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal)">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SetByWeight(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal)">
             <summary>
             추가금을 합한 총액을 원하는 비중에 따른 분배
             </summary>
@@ -135,7 +298,7 @@
             <param name="additional"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReBalancing.ReblancingService.MakeChangeSummary(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+        <member name="M:Boozawang.Web.Service.ReblancingService.MakeChangeSummary(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
             <summary>
             리밸런싱 전후 변경 요약
             </summary>
