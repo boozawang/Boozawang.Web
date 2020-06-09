@@ -22,9 +22,9 @@ namespace Boozawang.Web.Service
 			List<MaterialItem> result = new List<MaterialItem>();
 
 			if (useCache == true)
-			{
 				result = GetAllMaterailByCache();
-			}
+			else
+				result = GetAllMaterailByHTML();
 
 			if (updateCache == true)
 			{
@@ -50,9 +50,9 @@ namespace Boozawang.Web.Service
 			decimal price = 0;
 
 			if (useCache == true)
-			{
 				price = GetMaterailByCache(materialType);
-			}
+			else
+				price = GetMaterailByHTML(materialType);
 
 			if (updateCache == true)
 			{
