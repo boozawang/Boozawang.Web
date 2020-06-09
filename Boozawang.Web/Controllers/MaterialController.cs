@@ -18,7 +18,7 @@ namespace Boozawang.Web.Controllers
         IMaterialService service = new MaterialApmexService();
 
         /// <summary>
-        /// 전체 조회(달러/트로이온스) - 10분 캐시
+        /// 전체 조회(달러/트로이온스) 10분 캐시
         /// </summary>
         /// <returns></returns>
         [HttpGet]        
@@ -28,7 +28,7 @@ namespace Boozawang.Web.Controllers
         }
 
         /// <summary>
-        /// 각각 조회(달러/트로이온스) - 10분 캐시
+        /// 각각 조회(달러/트로이온스) 10분 캐시
         /// </summary>
         /// <param name="materialType">	0 : All, 1 : Gold, 2 : Silver, 3 : Platinum, 4 : Palladium</param>
         /// <returns></returns>
