@@ -24,21 +24,22 @@
             <param name="req"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Interface.IMaterialService.GetAll(System.Boolean,System.Boolean)">
+        <member name="T:Boozawang.Web.Interface.IMaterialService">
+            <summary>
+            금속 시세 조회 인터페이스
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IMaterialService.GetAll">
             <summary>
             모든 금속 정보를 가져옴
             </summary>
-            <param name="useCache"></param>
-            <param name="updateCache"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Interface.IMaterialService.GetByType(Boozawang.Web.Models.Material.MaterialTypes,System.Boolean,System.Boolean)">
+        <member name="M:Boozawang.Web.Interface.IMaterialService.GetByType(Boozawang.Web.Models.Material.MaterialTypes)">
             <summary>
             해당 금속 정보를 가져옴
             </summary>
             <param name="materailType"></param>
-            <param name="useCache"></param>
-            <param name="updateCache"></param>
             <returns></returns>
         </member>
         <member name="T:Boozawang.Web.Models.Material.MaterialItem">
@@ -203,13 +204,17 @@
             금속 캐시 - memory cache
             </summary>
         </member>
-        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetByType(Boozawang.Web.Models.Material.MaterialTypes,System.Boolean,System.Boolean)">
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetAll">
+            <summary>
+            모든 금속 시세 조회
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MaterialApmexService.GetByType(Boozawang.Web.Models.Material.MaterialTypes)">
             <summary>
             가격 조회(달러/트로이온스)
             </summary>
             <param name="materialType"></param>
-            <param name="useCache"></param>
-            <param name="updateCache"></param>
             <returns></returns>
         </member>
         <member name="M:Boozawang.Web.Service.MaterialApmexService.GetMaterailByCache(Boozawang.Web.Models.Material.MaterialTypes)">
