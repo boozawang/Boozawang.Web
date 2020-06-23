@@ -4,6 +4,43 @@
         <name>Boozawang.Web</name>
     </assembly>
     <members>
+        <member name="T:Boozawang.Web.Cache.FxCache">
+            <summary>
+            통화 캐시
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Cache.FxCache.GetCache(System.String)">
+            <summary>
+            캐시 가져오기
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Cache.FxCache.Set(System.String,System.Decimal)">
+            <summary>
+            캐시 저장하기
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:Boozawang.Web.Controllers.FxController">
+            <summary>
+            외환 정보 
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Controllers.FxController.Get">
+            <summary>
+            전체 외환 조회 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Controllers.FxController.Get(Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            통화별 가격 조회
+            </summary>
+            <param name="currencyType">1:KRW, 2:USD,  3:EUR, 4:CNY, 5:JPY, 6:GBP, 7:CAD, 8:AUD</param>
+            <returns></returns>
+        </member>
         <member name="M:Boozawang.Web.Controllers.MaterialController.Get">
             <summary>
             전체 조회(달러/트로이온스) 10분 캐시
@@ -24,6 +61,26 @@
             <param name="req"></param>
             <returns></returns>
         </member>
+        <member name="T:Boozawang.Web.Interface.IFxService">
+            <summary>
+            외환 관련 서비스 인터페이스
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IFxService.GetAll(Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            기준 통화에 대한 모든 환율 정보 가져오기(ex : KRW)
+            </summary>
+            <param name="targetType">기준 통화(분자)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IFxService.GetByType(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            기준 통화와 대상 통화의 환율 정보 가져오기
+            </summary>
+            <param name="targetType">기준통화(분자)</param>
+            <param name="baseType">대상통화(분모)</param>
+            <returns></returns>
+        </member>
         <member name="T:Boozawang.Web.Interface.IMaterialService">
             <summary>
             금속 시세 조회 인터페이스
@@ -41,6 +98,81 @@
             </summary>
             <param name="materailType"></param>
             <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Models.Fx.Consts.ExchangeRateApiConsts">
+            <summary>
+            api.exchangeratesapi.io 관련 consts
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Consts.ExchangeRateApiConsts.CURRENCY_API_URL">
+            <summary>
+            url
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Fx.Entities.FxItem">
+            <summary>
+            환율 정보
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Fx.Entities.FxItem.TargetCurrency">
+            <summary>
+            대상 통화 (분자)
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Fx.Entities.FxItem.BaseCurrency">
+            <summary>
+            기준 통화 (분모)
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Fx.Entities.FxItem.Price">
+            <summary>
+            가격 
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Fx.Enums.CurrencyTypes">
+            <summary>
+            통화 종류
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.KRW">
+            <summary>
+            한국 원
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.USD">
+            <summary>
+            미국 달러
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.EUR">
+            <summary>
+            유로화
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.CNY">
+            <summary>
+            중국 위안
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.JPY">
+            <summary>
+            일본 엔
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.GBP">
+            <summary>
+            영국 파운드
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.CAD">
+            <summary>
+            캐나다 달러
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Fx.Enums.CurrencyTypes.AUD">
+            <summary>
+            호주 달러
+            </summary>
         </member>
         <member name="T:Boozawang.Web.Models.Material.MaterialItem">
             <summary>
@@ -198,6 +330,106 @@
             <summary>
             나머지 그냥 냅둠
             </summary>
+        </member>
+        <member name="T:Boozawang.Web.Service.FxERApiService">
+            <summary>
+            외환 서비스
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Service.FxERApiService.cache">
+            <summary>
+            외환 캐시 - memory cache
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetAll(Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            전체 조회
+            </summary>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetByType(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            타입으로 조회
+            </summary>
+            <param name="targetType"></param>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetExByCache(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            캐시로 환율조회
+            </summary>
+            <param name="baseType"></param>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.SetExCache(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes,System.Decimal)">
+            <summary>
+            캐시에 저장
+            </summary>
+            <param name="baseType"></param>
+            <param name="targetType"></param>
+            <param name="price"></param>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetAllExByCache(Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            모든 캐시 가져오기
+            </summary>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.SetAllExCache(System.Collections.Generic.List{Boozawang.Web.Models.Fx.Entities.FxItem})">
+            <summary>
+            모든 캐시 저장
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetExByAPI(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            api로 환율조회
+            </summary>
+            <param name="targetType"></param>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetAllExByAPI(Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            api로 환율조회
+            </summary>
+            <param name="targetType"></param>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetTargetCurrency(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Entities.LatestT)">
+            <summary>
+            api에서 해당 통화정보 가져옴
+            </summary>
+            <param name="targetType"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.MakeGetCurrencyURL(Boozawang.Web.Models.Fx.Enums.CurrencyTypes,Boozawang.Web.Models.Fx.Enums.CurrencyTypes)">
+            <summary>
+            api url생성
+            </summary>
+            <param name="targetType"></param>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.GetRequestAPI(System.String)">
+            <summary>
+            HTTP GET 요청
+            </summary>
+            <param name="reqUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.FxERApiService.HasAllPrice(System.Collections.Generic.List{Boozawang.Web.Models.Fx.Entities.FxItem})">
+            <summary>
+            모두 값이 있나 확인
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
         </member>
         <member name="F:Boozawang.Web.Service.MaterialApmexService.cache">
             <summary>
