@@ -13,7 +13,7 @@ namespace Boozawang.Web.Models.Fx.Consts
         /// <summary>
         /// url
         /// </summary>
-        //https://api.exchangeratesapi.io/latest?symbols=KRW&base=CNY
+        //https://api.exchangeratesapi.io/latest?symbols=KRW&base=USD
         public const string CURRENCY_API_URL = "https://api.exchangeratesapi.io/latest?";  
     }
 }

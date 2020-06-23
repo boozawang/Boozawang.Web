@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Boozawang.Web.Service
 {
+	/// <summary>
+	/// 외환 서비스
+	/// </summary>
     public class FxERApiService : IFxService
 	{
 		/// <summary>
@@ -32,7 +35,7 @@ namespace Boozawang.Web.Service
 
 			if (!HasAllPrice(result))
             {
-				//result = GetAllExByAPI(targetType);
+				result = GetAllExByAPI(targetType);
 				SetAllExCache(result);
 			}
 
@@ -62,9 +65,7 @@ namespace Boozawang.Web.Service
 				Price = price
 			};
 		}
-
 		
-
 
 		/// <summary>
 		/// 캐시로 환율조회
@@ -136,13 +137,12 @@ namespace Boozawang.Web.Service
 		/// <param name="baseType"></param>
 		/// <returns></returns>
 		private decimal GetExByAPI(CurrencyTypes targetType, CurrencyTypes baseType)
-		{
-			decimal result = 0;
-			string reqUrl = MakeGetCurrencyURL(baseType, targetType);
+		{	
+			string reqUrl = MakeGetCurrencyURL(targetType, baseType);
 			string responseStr = GetRequestAPI(reqUrl);
 			LatestT responseT = JsonConvert.DeserializeObject<LatestT>(responseStr);
-			result = GetTargetCurrency(targetType, responseT);
-			return result;
+			return GetTargetCurrency(targetType, baseType, responseT).Price;
+			 
 		}
 
 		/// <summary>
@@ -151,13 +151,21 @@ namespace Boozawang.Web.Service
 		/// <param name="targetType"></param>
 		/// <param name="baseType"></param>
 		/// <returns></returns>
-		private decimal GetAllExByAPI(CurrencyTypes targetType, CurrencyTypes baseType)
+		private List<FxItem> GetAllExByAPI(CurrencyTypes targetType)
 		{
-			decimal result = 0;
-			string reqUrl = MakeGetCurrencyURL(baseType, targetType);
-			string responseStr = GetRequestAPI(reqUrl);
-			LatestT responseT = JsonConvert.DeserializeObject<LatestT>(responseStr);
-			result = GetTargetCurrency(targetType, responseT);
+			List<FxItem> result = new List<FxItem>();
+
+			foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
+            {
+				if(type != CurrencyTypes.KRW)
+                {
+					string reqUrl = MakeGetCurrencyURL(targetType, type);
+					string responseStr = GetRequestAPI(reqUrl);
+					LatestT responseT = JsonConvert.DeserializeObject<LatestT>(responseStr);
+					result.Add(GetTargetCurrency(targetType, type, responseT));
+				}
+			}
+
 			return result;
 		}
 
@@ -167,44 +175,20 @@ namespace Boozawang.Web.Service
 		/// <param name="targetType"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		private static decimal GetTargetCurrency(CurrencyTypes targetType, LatestT data)
+		private static FxItem GetTargetCurrency(CurrencyTypes targetType, CurrencyTypes baseType, LatestT data)
 		{
-			decimal result = 0;
+			FxItem result = new FxItem();
 
 			if (data == null || data.rates == null)
 				return result;
 
-			switch (targetType)
+			return new FxItem
 			{
-				case CurrencyTypes.AUD:
-					result = data.rates.AUD;
-					break;
-				case CurrencyTypes.CAD:
-					result = data.rates.CAD;
-					break;
-				case CurrencyTypes.CNY:
-					result = data.rates.CNY;
-					break;
-				case CurrencyTypes.EUR:
-					result = data.rates.EUR;
-					break;
-				case CurrencyTypes.GBP:
-					result = data.rates.GBP;
-					break;
-				case CurrencyTypes.JPY:
-					result = data.rates.JPY;
-					break;
-				case CurrencyTypes.KRW:
-					result = data.rates.KRW;
-					break;
-				case CurrencyTypes.USD:
-					result = data.rates.USD;
-					break;
-			}
-
-			return result;
+				BaseCurrency = baseType.ToString(),
+				TargetCurrency = targetType.ToString(),
+				Price = data.rates.GetByType(targetType)
+			};
 		}
-
 
 		/// <summary>
 		/// api url생성
