@@ -8,7 +8,7 @@ namespace Boozawang.Web.Models.ReBalancing
 	/// <summary>
 	/// 주식 아이템
 	/// </summary>
-    public class StockItemReq
+    public class ReblancingItemReq
     {
 		/// <summary>
 		/// 이름

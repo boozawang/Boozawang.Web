@@ -8,7 +8,7 @@ namespace Boozawang.Web.Models.ReBalancing
 	/// <summary>
 	/// 변경 요약
 	/// </summary>
-    public class StockItemChange
+    public class ReblancingItemChange
     {
 		/// <summary>
 		/// 이름

@@ -9,12 +9,12 @@ namespace Boozawang.Web.Service
 {
     public class ReblancingService
     {
-		public static RebalancingRes Rebalancing(List<StockItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
+		public static RebalancingRes Rebalancing(List<ReblancingItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
 		{
 			#region 변수선언
 
 			RebalancingRes result = new RebalancingRes();
-			List<StockItemReq> after = new List<StockItemReq>();
+			List<ReblancingItemReq> after = new List<ReblancingItemReq>();
 			#endregion
 
 			#region 파라메터 유효성 검사
@@ -53,11 +53,11 @@ namespace Boozawang.Web.Service
 		/// <param name="before"></param>
 		/// <param name="additionalMoney"></param>
 		/// <returns></returns>
-		private static List<StockItemReq> RebalancingStockItem(List<StockItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
+		private static List<ReblancingItemReq> RebalancingStockItem(List<ReblancingItemReq> before, decimal additionalMoney, RestOptionTypes restOptionType)
 		{
 			#region 변수 선언
 
-			List<StockItemReq> result = new List<StockItemReq>();
+			List<ReblancingItemReq> result = new List<ReblancingItemReq>();
 			decimal rest = 0;
 			#endregion
 
@@ -94,13 +94,13 @@ namespace Boozawang.Web.Service
 		/// </summary>
 		/// <param name="before"></param>
 		/// <returns></returns>
-		private static decimal SumPriceQty(List<StockItemReq> before)
+		private static decimal SumPriceQty(List<ReblancingItemReq> before)
 		{
 			decimal result = 0;
 
 			if (before?.Any() ?? false)
 			{
-				foreach (StockItemReq entity in before)
+				foreach (ReblancingItemReq entity in before)
 				{
 					if (entity != null)
 					{
@@ -113,7 +113,7 @@ namespace Boozawang.Web.Service
 			return result;
 		}
 
-		private static decimal SumWeight(List<StockItemReq> before)
+		private static decimal SumWeight(List<ReblancingItemReq> before)
 		{
 			decimal result = 0;
 
@@ -121,7 +121,7 @@ namespace Boozawang.Web.Service
 			if (before?.Any() ?? false)
 			{
 				decimal overflowAverage = Decimal.MaxValue / before.Count;
-				foreach (StockItemReq entity in before)
+				foreach (ReblancingItemReq entity in before)
 				{
 					if (entity != null)
 					{
@@ -140,9 +140,9 @@ namespace Boozawang.Web.Service
 		/// <param name="before"></param>
 		/// <param name="rest"></param>
 		/// <returns></returns>
-		private static List<StockItemReq> SetByRest(List<StockItemReq> before, decimal rest, RestOptionTypes restOptionType)
+		private static List<ReblancingItemReq> SetByRest(List<ReblancingItemReq> before, decimal rest, RestOptionTypes restOptionType)
 		{
-			List<StockItemReq> result = new List<StockItemReq>();
+			List<ReblancingItemReq> result = new List<ReblancingItemReq>();
 
 			switch(restOptionType)
             {
@@ -154,9 +154,9 @@ namespace Boozawang.Web.Service
 					{
 						before = before.OrderByDescending(x => x.CurrentPrice).ToList();
 
-						foreach (StockItemReq entity in before)
+						foreach (ReblancingItemReq entity in before)
 						{
-							StockItemReq one = new StockItemReq();
+							ReblancingItemReq one = new ReblancingItemReq();
 							one.Name = entity.Name;
 							one.CurrentPrice = entity.CurrentPrice;
 							one.TargetWeight = entity.TargetWeight;
@@ -186,9 +186,9 @@ namespace Boozawang.Web.Service
 		/// <param name="before"></param>
 		/// <param name="additional"></param>
 		/// <returns></returns>
-		private static List<StockItemReq> SetByWeight(List<StockItemReq> before, decimal additional)
+		private static List<ReblancingItemReq> SetByWeight(List<ReblancingItemReq> before, decimal additional)
 		{
-			List<StockItemReq> result = new List<StockItemReq>();
+			List<ReblancingItemReq> result = new List<ReblancingItemReq>();
 			decimal originalSum = 0;
 			decimal weightSum = 0;
 
@@ -199,11 +199,11 @@ namespace Boozawang.Web.Service
 				weightSum = SumWeight(before);
 
 				// 나머지 내림 분배
-				foreach (StockItemReq entity in before)
+				foreach (ReblancingItemReq entity in before)
 				{
 					if (entity != null)
 					{
-						StockItemReq one = new StockItemReq();
+						ReblancingItemReq one = new ReblancingItemReq();
 						one.Name = entity.Name;
 						one.CurrentPrice = entity.CurrentPrice;
 						one.TargetWeight = entity.TargetWeight;
@@ -225,16 +225,16 @@ namespace Boozawang.Web.Service
 		/// <param name="before"></param>
 		/// <param name="after"></param>
 		/// <returns></returns>
-		private static List<StockItemChange> MakeChangeSummary(List<StockItemReq> before, List<StockItemReq> after)
+		private static List<ReblancingItemChange> MakeChangeSummary(List<ReblancingItemReq> before, List<ReblancingItemReq> after)
         {
-			List<StockItemChange> result = new List<StockItemChange>();
+			List<ReblancingItemChange> result = new List<ReblancingItemChange>();
 
-			foreach (StockItemReq entity in after)
+			foreach (ReblancingItemReq entity in after)
             {
 				var selectedBefore = before.Find(x => x.Name == entity.Name);
 
 				result.Add(
-					new StockItemChange
+					new ReblancingItemChange
 					{
 						Name = entity.Name,
 						BasePrice = entity.CurrentPrice,
