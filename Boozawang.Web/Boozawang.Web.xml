@@ -92,6 +92,13 @@
             <param name="ticker">개별주식 티커. ETF 안된다</param>
             <returns></returns>
         </member>
+        <member name="M:Boozawang.Web.Controllers.UsaStockController.Post(System.String)">
+            <summary>
+            post for slack
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
         <member name="T:Boozawang.Web.Interface.IFxService">
             <summary>
             외환 관련 서비스 인터페이스
