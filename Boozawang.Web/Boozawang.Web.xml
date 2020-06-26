@@ -23,6 +23,25 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
+        <member name="T:Boozawang.Web.Cache.UsaStockCache">
+            <summary>
+            미국 주식 캐시
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Cache.UsaStockCache.GetCache(System.String)">
+            <summary>
+            캐시 가져오기
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Cache.UsaStockCache.Set(System.String,System.String)">
+            <summary>
+            캐시 저장하기
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
         <member name="T:Boozawang.Web.Controllers.FxController">
             <summary>
             외환 정보 
@@ -61,6 +80,18 @@
             <param name="req"></param>
             <returns></returns>
         </member>
+        <member name="T:Boozawang.Web.Controllers.UsaStockController">
+            <summary>
+            미국 주식 정보 조회
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Controllers.UsaStockController.Get(System.String)">
+            <summary>
+            티커로 정보 조회
+            </summary>
+            <param name="ticker">개별주식 티커. ETF 안된다</param>
+            <returns></returns>
+        </member>
         <member name="T:Boozawang.Web.Interface.IFxService">
             <summary>
             외환 관련 서비스 인터페이스
@@ -97,6 +128,18 @@
             해당 금속 정보를 가져옴
             </summary>
             <param name="materailType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Interface.IUsaStockService">
+            <summary>
+            미국 주식 조회 서비스
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IUsaStockService.GetKeyStats(System.String)">
+            <summary>
+            미국 주식 주요정보 조회
+            </summary>
+            <param name="ticker"></param>
             <returns></returns>
         </member>
         <member name="T:Boozawang.Web.Models.Fx.Consts.ExchangeRateApiConsts">
@@ -263,47 +306,47 @@
             리밸런싱 후 잔액
             </summary>
         </member>
-        <member name="T:Boozawang.Web.Models.ReBalancing.StockItemChange">
+        <member name="T:Boozawang.Web.Models.ReBalancing.ReblancingItemChange">
             <summary>
             변경 요약
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.Name">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemChange.Name">
             <summary>
             이름
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.BasePrice">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemChange.BasePrice">
             <summary>
             기준가격
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemChange.ChangeQty">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemChange.ChangeQty">
             <summary>
             수량
             </summary>
         </member>
-        <member name="T:Boozawang.Web.Models.ReBalancing.StockItemReq">
+        <member name="T:Boozawang.Web.Models.ReBalancing.ReblancingItemReq">
             <summary>
             주식 아이템
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.Name">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemReq.Name">
             <summary>
             이름
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.CurrentPrice">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemReq.CurrentPrice">
             <summary>
             가격
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.CurrentQty">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemReq.CurrentQty">
             <summary>
             수량
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.ReBalancing.StockItemReq.TargetWeight">
+        <member name="P:Boozawang.Web.Models.ReBalancing.ReblancingItemReq.TargetWeight">
             <summary>
             목표 비중
             </summary>
@@ -329,6 +372,76 @@
         <member name="F:Boozawang.Web.Models.ReBalancing.RestOptionTypes.MaxRest">
             <summary>
             나머지 그냥 냅둠
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.UsaStock.UsaStockKeyStats">
+            <summary>
+            개별 주식 정보
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.Ticker">
+            <summary>
+            티커
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.CompanyName">
+            <summary>
+            회사명
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.LastPrice">
+            <summary>
+            마지막 가격
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.MarketCap">
+            <summary>
+            시가 총액
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.PerTTM">
+            <summary>
+            PE Ratio (TTM)
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.DivTTM">
+            <summary>
+            예상 배당(율) (TTM)
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.UsaStock.YahooFinanceConst">
+            <summary>
+            야후 파이낸스에서 쓰는 상수
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.PAGE">
+            <summary>
+            정보 가져오는 메인 페이지
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_COMP_NAME">
+            <summary>
+            회사명 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_PRICE">
+            <summary>
+            가격 정보 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_PER">
+            <summary>
+            PE Ratio XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_DIV">
+            <summary>
+            배당 정보 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_MARKET_CAP">
+            <summary>
+            시총 정보 XPATH
             </summary>
         </member>
         <member name="T:Boozawang.Web.Service.FxERApiService">
@@ -523,7 +636,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+        <member name="M:Boozawang.Web.Service.ReblancingService.RebalancingStockItem(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
             <summary>
             리밸런싱
             </summary>
@@ -531,14 +644,14 @@
             <param name="additionalMoney"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReblancingService.SumPriceQty(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SumPriceQty(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq})">
             <summary>
             수량 가격 곱해줌
             </summary>
             <param name="before"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReblancingService.SetByRest(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SetByRest(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq},System.Decimal,Boozawang.Web.Models.ReBalancing.RestOptionTypes)">
             <summary>
             나머지 금액을 내림차순으로 최대한 분배
             </summary>
@@ -546,7 +659,7 @@
             <param name="rest"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReblancingService.SetByWeight(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Decimal)">
+        <member name="M:Boozawang.Web.Service.ReblancingService.SetByWeight(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq},System.Decimal)">
             <summary>
             추가금을 합한 총액을 원하는 비중에 따른 분배
             </summary>
@@ -554,12 +667,114 @@
             <param name="additional"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.ReblancingService.MakeChangeSummary(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq},System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.StockItemReq})">
+        <member name="M:Boozawang.Web.Service.ReblancingService.MakeChangeSummary(System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq},System.Collections.Generic.List{Boozawang.Web.Models.ReBalancing.ReblancingItemReq})">
             <summary>
             리밸런싱 전후 변경 요약
             </summary>
             <param name="before"></param>
             <param name="after"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Service.YahooFinanceService">
+            <summary>
+            주식정보 야후 파이낸스에서 조회
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Service.YahooFinanceService.cache">
+            <summary>
+            미국 주식 캐시 - memory cache
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetKeyStats(System.String)">
+            <summary>
+            주요 정보 조회
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.SetResultByDoc(System.String,HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            doc로 결과 만들기
+            </summary>
+            <param name="ticker"></param>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetUsaStockCache(System.String)">
+            <summary>
+            캐시에서 가져오기
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.SetUsaStockCache(System.String,Boozawang.Web.Models.UsaStock.UsaStockKeyStats)">
+            <summary>
+            캐시에 저장하기
+            </summary>
+            <param name="ticker"></param>
+            <param name="val"></param>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.HasData(Boozawang.Web.Models.UsaStock.UsaStockKeyStats)">
+            <summary>
+            데이터 있나 검사
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetUrl(System.String)">
+            <summary>
+            티커로 url가져오기
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetPriceByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            htmlDoc에서 가격정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetCompNameByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            htmlDoc에서 회사명 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetPerByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            htmlDoc에서 PER 정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetDivByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            htmlDoc에서 배당정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetMarketCapByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            html 정보에서 시총정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetHtml(System.String)">
+            <summary>
+            html 가져오기
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetHtmlAsync(System.String)">
+            <summary>
+            html 가져오기 (비동기)
+            </summary>
+            <param name="url"></param>
             <returns></returns>
         </member>
     </members>

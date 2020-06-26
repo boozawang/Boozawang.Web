@@ -10,7 +10,7 @@ namespace Boozawang.Web.Models.ReBalancing
         /// <summary>
         /// 리밸런싱 목표 데이터
         /// </summary>
-        public List<StockItemReq> StockItem { get; set; }
+        public List<ReblancingItemReq> StockItem { get; set; }
 
         /// <summary>
         /// 추가금액
