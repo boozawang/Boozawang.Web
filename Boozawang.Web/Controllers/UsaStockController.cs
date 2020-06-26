@@ -13,7 +13,7 @@ namespace Boozawang.Web.Controllers
     /// <summary>
     /// 미국 주식 정보 조회
     /// </summary>
-    [Route("api/Usa")]
+    [Route("api/USA")]
     [ApiController]
     public class UsaStockController : ControllerBase
     {
@@ -26,6 +26,17 @@ namespace Boozawang.Web.Controllers
         /// <returns></returns>
         [HttpGet("{ticker}")]
         public UsaStockKeyStats Get(string ticker)
+        {
+            return stockService.GetKeyStats(ticker);
+        }
+
+        /// <summary>
+        /// post for slack
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public UsaStockKeyStats Post(string ticker)
         {
             return stockService.GetKeyStats(ticker);
         }
