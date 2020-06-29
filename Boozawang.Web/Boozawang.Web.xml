@@ -60,6 +60,17 @@
             <param name="currencyType">1:KRW, 2:USD,  3:EUR, 4:CNY, 5:JPY, 6:GBP, 7:CAD, 8:AUD</param>
             <returns></returns>
         </member>
+        <member name="T:Boozawang.Web.Controllers.MailController">
+            <summary>
+            이메일 관련 api
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Controllers.MailController.Post(Boozawang.Web.Models.Email.SendEmailReq)">
+            <summary>
+            메일 보내기
+            </summary>
+            <param name="req"></param>
+        </member>
         <member name="M:Boozawang.Web.Controllers.MaterialController.Get">
             <summary>
             전체 조회(달러/트로이온스) 10분 캐시
@@ -98,6 +109,23 @@
             </summary>
             <param name="ticker"></param>
             <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Interface.IEmailService">
+            <summary>
+            이메일 관련 서비스
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Interface.IEmailService.Send(Boozawang.Web.Models.Email.SmtpEnumTypes,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            이메일 보내기
+            </summary>
+            <param name="smtpType"></param>
+            <param name="userName"></param>
+            <param name="userPass"></param>
+            <param name="fromEmail"></param>
+            <param name="toEmail"></param>
+            <param name="subjectEmail"></param>
+            <param name="bodyEmail"></param>
         </member>
         <member name="T:Boozawang.Web.Interface.IFxService">
             <summary>
@@ -148,6 +176,76 @@
             </summary>
             <param name="ticker"></param>
             <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Models.Email.SendEmailReq">
+            <summary>
+            이메일 보내기 요청
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.SmtpType">
+            <summary>
+            이용할 SMTP 서버 타입
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.UserName">
+            <summary>
+            사용자 명 - 로그인
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.UserPass">
+            <summary>
+            사용자 비번 - 로그인
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.FromEmail">
+            <summary>
+            보내는이 이메일 주소
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.ToEmail">
+            <summary>
+            받는이 이메일 주소
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.SubjectEmail">
+            <summary>
+            이메일 제목
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.Email.SendEmailReq.BodyEmail">
+            <summary>
+            이메일 내용
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Email.SmtpConsts">
+            <summary>
+            smtp 관련 const
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Email.SmtpConsts.SMTP_GMAIL_ADDR">
+            <summary>
+            SMTP 주소
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Email.SmtpConsts.SMTP_GMAIL_PORT">
+            <summary>
+            SMTP 포트
+            </summary>
+        </member>
+        <member name="T:Boozawang.Web.Models.Email.SmtpEnumTypes">
+            <summary>
+            smtp 서버 종류
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Email.SmtpEnumTypes.Unknown">
+            <summary>
+            알수 없음
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.Email.SmtpEnumTypes.GMail">
+            <summary>
+            googld gmail
+            </summary>
         </member>
         <member name="T:Boozawang.Web.Models.Fx.Consts.ExchangeRateApiConsts">
             <summary>
@@ -549,6 +647,37 @@
             모두 값이 있나 확인
             </summary>
             <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Boozawang.Web.Service.MailKitService">
+            <summary>
+            mail kit 를 이용한 email 서비스
+            </summary>
+        </member>
+        <member name="M:Boozawang.Web.Service.MailKitService.Send(Boozawang.Web.Models.Email.SmtpEnumTypes,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            이메일 보내기
+            </summary>
+            <param name="smtpType"></param>
+            <param name="userName"></param>
+            <param name="userPass"></param>
+            <param name="fromEmail"></param>
+            <param name="toEmail"></param>
+            <param name="subjectEmail"></param>
+            <param name="bodyEmail"></param>
+        </member>
+        <member name="M:Boozawang.Web.Service.MailKitService.GetSmtpAddressByEnumType(Boozawang.Web.Models.Email.SmtpEnumTypes)">
+            <summary>
+            smtp enum Type으로 smtp addr 가져오기
+            </summary>
+            <param name="smtpType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.MailKitService.GetSmtpPorttByEnumType(Boozawang.Web.Models.Email.SmtpEnumTypes)">
+            <summary>
+            smtp enum Type으로 smtp port 가져오기
+            </summary>
+            <param name="smtpType"></param>
             <returns></returns>
         </member>
         <member name="F:Boozawang.Web.Service.MaterialApmexService.cache">
