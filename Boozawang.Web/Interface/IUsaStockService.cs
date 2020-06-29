@@ -1,4 +1,5 @@
 ﻿using Boozawang.Web.Models.UsaStock;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace Boozawang.Web.Interface
         /// </summary>
         /// <param name="ticker"></param>
         /// <returns></returns>
-        UsaStockKeyStats GetKeyStats(string ticker);
+        UsaStockKeyStats GetKeyStats([FromBody] string ticker);
     }
 }
