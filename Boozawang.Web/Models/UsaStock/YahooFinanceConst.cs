@@ -40,5 +40,20 @@ namespace Boozawang.Web.Models.UsaStock
         /// </summary>
         public const string XPATH_MARKET_CAP = "//html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/span";
 
+        /// <summary>
+        /// ROE 정보 XPATH
+        /// </summary>
+        public const string XPATH_ROE = "//html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/section/div[3]/div[3]/div/div[3]/div/div/table/tbody/tr[2]/td[2]";
+
+        /// <summary>
+        /// 영업 이익률 정보 XPATH
+        /// </summary>
+        public const string XPATH_OPERATING_MARGIN = "//html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/section/div[3]/div[3]/div/div[2]/div/div/table/tbody/tr[2]/td[2]";
+
+        /// <summary>
+        /// payout rate 정보 XPATH
+        /// </summary>
+        public const string XPATH_PAYOUT_RATE = "//html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/section/div[3]/div[2]/div/div[3]/div/div/table/tbody/tr[6]/td[2]";
+
     }
 }

@@ -26,6 +26,16 @@ namespace Boozawang.Web.Models.UsaStock
         public string LastPrice { get; set; }
 
         /// <summary>
+        /// 예상 배당(율) (TTM)
+        /// </summary>
+        public string DivTTM { get; set; }
+
+        /// <summary>
+        /// Payout Ratio
+        /// </summary>
+        public string PayOutRate { get; set; }
+
+        /// <summary>
         /// 시가 총액
         /// </summary>
         public string MarketCap { get; set; }
@@ -36,8 +46,13 @@ namespace Boozawang.Web.Models.UsaStock
         public string PerTTM { get; set; }
 
         /// <summary>
-        /// 예상 배당(율) (TTM)
+        /// ROE (TTM)
         /// </summary>
-        public string DivTTM { get; set; }
+        public string RoeTTM { get; set; }
+
+        /// <summary>
+        /// 영업이익률 (TTM)
+        /// </summary>
+        public string OperatingMargin { get; set; }
     }
 }
