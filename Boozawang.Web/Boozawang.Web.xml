@@ -65,6 +65,11 @@
             이메일 관련 api
             </summary>
         </member>
+        <member name="F:Boozawang.Web.Controllers.MailController.emailService">
+            <summary>
+            이메일 서비스
+            </summary>
+        </member>
         <member name="M:Boozawang.Web.Controllers.MailController.Post(Boozawang.Web.Models.Email.SendEmailReq)">
             <summary>
             메일 보내기
@@ -499,6 +504,16 @@
             마지막 가격
             </summary>
         </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.DivTTM">
+            <summary>
+            예상 배당(율) (TTM)
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.PayOutRate">
+            <summary>
+            Payout Ratio
+            </summary>
+        </member>
         <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.MarketCap">
             <summary>
             시가 총액
@@ -509,9 +524,14 @@
             PE Ratio (TTM)
             </summary>
         </member>
-        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.DivTTM">
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.RoeTTM">
             <summary>
-            예상 배당(율) (TTM)
+            ROE (TTM)
+            </summary>
+        </member>
+        <member name="P:Boozawang.Web.Models.UsaStock.UsaStockKeyStats.OperatingMargin">
+            <summary>
+            영업이익률 (TTM)
             </summary>
         </member>
         <member name="T:Boozawang.Web.Models.UsaStock.YahooFinanceConst">
@@ -547,6 +567,21 @@
         <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_MARKET_CAP">
             <summary>
             시총 정보 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_ROE">
+            <summary>
+            ROE 정보 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_OPERATING_MARGIN">
+            <summary>
+            영업 이익률 정보 XPATH
+            </summary>
+        </member>
+        <member name="F:Boozawang.Web.Models.UsaStock.YahooFinanceConst.XPATH_PAYOUT_RATE">
+            <summary>
+            payout rate 정보 XPATH
             </summary>
         </member>
         <member name="T:Boozawang.Web.Service.FxERApiService">
@@ -828,7 +863,7 @@
             <param name="ticker"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.YahooFinanceService.SetResultByDoc(System.String,HtmlAgilityPack.HtmlDocument)">
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.SetResultByDoc(System.String,HtmlAgilityPack.HtmlDocument,HtmlAgilityPack.HtmlDocument)">
             <summary>
             doc로 결과 만들기
             </summary>
@@ -857,9 +892,16 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetUrl(System.String)">
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetSummaryUrl(System.String)">
             <summary>
-            티커로 url가져오기
+            티커로 요약 url가져오기
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetStatisticUrl(System.String)">
+            <summary>
+            티커로 통계 url 가져오기
             </summary>
             <param name="ticker"></param>
             <returns></returns>
@@ -895,6 +937,27 @@
         <member name="M:Boozawang.Web.Service.YahooFinanceService.GetMarketCapByDoc(HtmlAgilityPack.HtmlDocument)">
             <summary>
             html 정보에서 시총정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetOperatingMarginByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            html 정보에서 영업이익률 정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetROEByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            html 정보에서 ROE 정보 get
+            </summary>
+            <param name="htmlDoc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Boozawang.Web.Service.YahooFinanceService.GetPayOutRateByDoc(HtmlAgilityPack.HtmlDocument)">
+            <summary>
+            html 정보에서 payout 정보 get
             </summary>
             <param name="htmlDoc"></param>
             <returns></returns>

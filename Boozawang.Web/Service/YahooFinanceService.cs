@@ -35,8 +35,11 @@ namespace Boozawang.Web.Service
 
             if(!HasData(result))
             {
-                var htmlDoc = GetHtml(GetUrl(ticker));
-                result = SetResultByDoc(ticker, htmlDoc);
+                var htmlDocSummary = GetHtmlAsync(GetSummaryUrl(ticker));
+                var htmlDocStatistic = GetHtmlAsync(GetStatisticUrl(ticker));
+                Task.WhenAll(htmlDocSummary, htmlDocStatistic);
+
+                result = SetResultByDoc(ticker, htmlDocSummary.Result, htmlDocStatistic.Result);
                 SetUsaStockCache(ticker, result);
             }
 
@@ -49,16 +52,19 @@ namespace Boozawang.Web.Service
         /// <param name="ticker"></param>
         /// <param name="htmlDoc"></param>
         /// <returns></returns>
-        private static UsaStockKeyStats SetResultByDoc(string ticker, HtmlDocument htmlDoc)
+        private static UsaStockKeyStats SetResultByDoc(string ticker, HtmlDocument htmlSummary, HtmlDocument htmlStatistic)
         {
             return new UsaStockKeyStats
             {
                 Ticker = ticker,
-                CompanyName = GetCompNameByDoc(htmlDoc),
-                MarketCap = GetMarketCapByDoc(htmlDoc),
-                LastPrice = GetPriceByDoc(htmlDoc),
-                PerTTM = GetPerByDoc(htmlDoc),
-                DivTTM = GetDivByDoc(htmlDoc)
+                CompanyName = GetCompNameByDoc(htmlSummary),
+                MarketCap = GetMarketCapByDoc(htmlSummary),
+                LastPrice = GetPriceByDoc(htmlSummary),
+                PerTTM = GetPerByDoc(htmlSummary),
+                DivTTM = GetDivByDoc(htmlSummary),
+                OperatingMargin = GetOperatingMarginByDoc(htmlStatistic),
+                RoeTTM = GetROEByDoc(htmlStatistic),
+                PayOutRate = GetPayOutRateByDoc(htmlStatistic)
             };
         }
 
@@ -100,16 +106,31 @@ namespace Boozawang.Web.Service
         }
 
         /// <summary>
-        /// 티커로 url가져오기
+        /// 티커로 요약 url가져오기
         /// </summary>
         /// <param name="ticker"></param>
         /// <returns></returns>
-        private static string GetUrl(string ticker)
+        private static string GetSummaryUrl(string ticker)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(YahooFinanceConst.PAGE);
             sb.Append(ticker.ToUpper());
             sb.Append("?p=");
+            sb.Append(ticker.ToUpper());
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// 티커로 통계 url 가져오기
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <returns></returns>
+        private static string GetStatisticUrl(string ticker)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(YahooFinanceConst.PAGE);
+            sb.Append(ticker.ToUpper());
+            sb.Append("/key-statistics?p=");
             sb.Append(ticker.ToUpper());
             return sb.ToString();
         }
@@ -163,6 +184,36 @@ namespace Boozawang.Web.Service
         private static string GetMarketCapByDoc(HtmlDocument htmlDoc)
         {
             return htmlDoc.DocumentNode.SelectSingleNode(YahooFinanceConst.XPATH_MARKET_CAP).InnerText;
+        }
+
+        /// <summary>
+        /// html 정보에서 영업이익률 정보 get
+        /// </summary>
+        /// <param name="htmlDoc"></param>
+        /// <returns></returns>
+        private static string GetOperatingMarginByDoc(HtmlDocument htmlDoc)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode(YahooFinanceConst.XPATH_OPERATING_MARGIN).InnerText;
+        }
+
+        /// <summary>
+        /// html 정보에서 ROE 정보 get
+        /// </summary>
+        /// <param name="htmlDoc"></param>
+        /// <returns></returns>
+        private static string GetROEByDoc(HtmlDocument htmlDoc)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode(YahooFinanceConst.XPATH_ROE).InnerText;
+        }
+
+        /// <summary>
+        /// html 정보에서 payout 정보 get
+        /// </summary>
+        /// <param name="htmlDoc"></param>
+        /// <returns></returns>
+        private static string GetPayOutRateByDoc(HtmlDocument htmlDoc)
+        {
+            return htmlDoc.DocumentNode.SelectSingleNode(YahooFinanceConst.XPATH_PAYOUT_RATE).InnerText;
         }
 
         /// <summary>
